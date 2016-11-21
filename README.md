@@ -28,7 +28,7 @@ I will use JavaScript to create a timer.
 
 There will be a pop-up sidebar that can appear whenever you toggle it.
 
-![wireframes](/docs/wireframes/stayontask.png)
+![wireframes](/docs/wireframes/StayOnTask.png)
 
 ### Implementation Timeline
 
