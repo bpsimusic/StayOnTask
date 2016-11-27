@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Getting started example",
-  "description": "This extension shows a Google Image search result for the current page",
+  "name": "Stay On Task",
+  "description": "This extension blocks certain websites",
   "version": "1.0",
 
   "browser_action": {
@@ -13,8 +13,10 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "storage",
-    "https://ajax.googleapis.com/"
-  ]
+    "storage"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
 
 }
