@@ -34,6 +34,7 @@ chrome.tabs.onUpdated.addListener(function() {
         if (url.includes(items[key])){
           let myNewUrl = "http://google.com";
           chrome.tabs.update(tabId, {url: myNewUrl});
+          alert("Website is blocked!")
         }
       }
     });
