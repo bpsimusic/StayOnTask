@@ -32,9 +32,8 @@ chrome.tabs.onUpdated.addListener(function() {
     chrome.storage.sync.get(null, function(items){
       for(var key in items) {
         if (url.includes(items[key])){
-          let myNewUrl = "http://google.com";
+          let myNewUrl = "/message.html";
           chrome.tabs.update(tabId, {url: myNewUrl});
-          alert("Website is blocked!")
         }
       }
     });
