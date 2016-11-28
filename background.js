@@ -1,5 +1,5 @@
 
-function getCurrentTabUrl(callback) {
+function getTabsUrl(callback) {
   // Query filter to be passed to chrome.tabs.query - see
   // https://developer.chrome.com/extensions/tabs#method-query
   var queryInfo = {
@@ -22,22 +22,18 @@ function getCurrentTabUrl(callback) {
 
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-
-  let form = document.getElementById("website-form")
-  form.addEventListener('submit', function(){
-  let website = document.getElementById("website-entry").value;
-  chrome.storage.sync.set({'website1': website}, function() {
-      });
-  })
+//enter something in popup.js, the background should be able to get it because they're all linked.
+//want chrome.storage.sync.set to be set in popup.js
+chrome.tabs.onUpdated.addListener(function() {
   //the url comes from the tab url
-  getCurrentTabUrl(function(url, tabId) {
-    chrome.storage.sync.get("website1", function(items){
+  getTabsUrl(function(url, tabId) {
+    //items is a POJO that holds what you previously stored as a website.
+    //items[website1] = facebook.com
+    chrome.storage.sync.get(null, function(items){
       for(var key in items) {
         if (url.includes(items[key])){
           let myNewUrl = "http://google.com";
           chrome.tabs.update(tabId, {url: myNewUrl});
-          console.log("don't visit me!");
         }
       }
     });
