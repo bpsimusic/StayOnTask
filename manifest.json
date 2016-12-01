@@ -14,14 +14,15 @@
     "storage"
   ],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["jquery.js", "background.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["iframeInjector.js"],
+      "css": ["sidenav.css"],
+      "js": ["jquery.js", "sidenav.js"],
       "run_at": "document_end"
     }
   ],
-  "web_accessible_resources": ["iframe.css", "sidenav.html"]
+  "web_accessible_resources": ["sidenav.html"]
 }
