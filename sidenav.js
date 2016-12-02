@@ -1,3 +1,5 @@
+
+
 function openNav() {
     document.getElementById("mySideNav").style.width = "250px";
 }
@@ -6,67 +8,148 @@ function closeNav() {
     document.getElementById("mySideNav").style.width = "0";
 }
 
+function printTime(hours, minutes){
+  if (minutes < 10){
+    minutes = "0" + minutes;
+  }
+  if (hours < 10){
+    hours = "0" + hours;
+  }
+  document.getElementById("timer").innerHTML = `${hours}:${minutes}`;
+}
+
+function startTimer(hours){
+  let minutes = 0;
+  let seconds = 0;
+  setInterval(function(){
+    seconds--;
+    if (seconds < 0) {
+      seconds = 59;
+      minutes--;
+    }
+    if (minutes < 0) {
+      minutes = 59;
+      hours--;
+    }
+    printTime(hours, minutes);
+  }, 1000);
+
+}
+  //submit urls section
+function generateURLKey() {
+    return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
+}
+
+function generateTaskKey() {
+    return (("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4) +
+    ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4));
+}
+
 $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
+    // startTimer(5);
     $($.parseHTML(data)).appendTo('body');
     let arrow = document.getElementById("arrow");
     let closeButton = document.getElementById("closebtn");
     arrow.addEventListener("click", openNav);
     closeButton.addEventListener("click", closeNav);
-
-    let form = document.getElementById("website-form");
-    form.addEventListener('submit', function(e){
+    //form to create a task
+    let formTask = document.getElementById("task-form");
+    formTask.addEventListener('submit', function(e){
+      e.preventDefault();
+      let task = document.getElementById("task-name").value;
+      let timeLimit = document.getElementById("time-limit").value;
+      
+      startTimer(timeLimit)
+      let timer = document.createElement("p");
+      p.innerHTML
+      let key = generateTaskKey();
+      chrome.storage.sync.set({[key]: task});
+      formTask.reset();
+    });
+    //form to create a blocked website.
+    let formURL = document.getElementById("website-form");
+    formURL.addEventListener('submit', function(e){
       e.preventDefault();
       let website = document.getElementById("website-entry").value;
-      let key = generateKey();
+      let key = generateURLKey();
       chrome.storage.sync.set({[key]: website});
-      form.reset();
+      formURL.reset();
     });
-
 
     //creating the api
     let blockedWebsites = document.getElementById("blocked-websites");
+    let listOfTasks = document.getElementById("task-list");
     chrome.storage.sync.get(null, function(items){
+    //shows the list of websites
       for(let key in items) {
+        if (key.length === 4){
+          let item = document.createElement("li");
+          let remove = document.createElement("button");
+          remove.innerHTML = "remove";
+          remove.setAttribute("key", key);
+          remove.addEventListener("click", function(e){
+            chrome.storage.sync.remove(this.getAttribute("key"));
+            let that = this.parentElement
+            blockedWebsites.removeChild(that);
+          });
+          item.appendChild(document.createTextNode(items[key]));
+          item.appendChild(remove);
+          blockedWebsites.appendChild(item);
+          //show the list of tasks
+        } else if (key.length === 8) {
+            let item = document.createElement("li");
+            let remove = document.createElement("button");
+            remove.innerHTML = "remove";
+            remove.setAttribute("key", key);
+            remove.addEventListener("click", function(e){
+              chrome.storage.sync.remove(this.getAttribute("key"));
+              let that = this.parentElement
+              listOfTasks.removeChild(that);
+            });
+            item.appendChild(document.createTextNode(items[key]));
+            item.appendChild(remove);
+            listOfTasks.appendChild(item);
+        }
+      }
+    });
+  })
+//end of ajax
+
+
+
+  //adds a new website or a new task on the fly
+  chrome.storage.onChanged.addListener(function(changes, namespace){
+    for(let key in changes){
+      if (changes[key]["newValue"] === undefined){
+        break;
+      }
+      if (key.length === 4){
+        let blockedWebsites = document.getElementById("blocked-websites");
         let item = document.createElement("li");
         let remove = document.createElement("button");
         remove.innerHTML = "remove";
         remove.setAttribute("key", key);
         remove.addEventListener("click", function(e){
           chrome.storage.sync.remove(this.getAttribute("key"));
-          let that = this.parentElement
-          blockedWebsites.removeChild(that);
+          blockedWebsites.removeChild(this.parentElement);
         });
-        item.appendChild(document.createTextNode(items[key]));
+        item.appendChild(document.createTextNode(changes[key]["newValue"]));
         item.appendChild(remove);
         blockedWebsites.appendChild(item);
+        //adding a task on the fly
+      } else if (key.length === 8){
+        let listOfTasks = document.getElementById("task-list");
+        let item = document.createElement("li");
+        let remove = document.createElement("button");
+        remove.innerHTML = "remove";
+        remove.setAttribute("key", key);
+        remove.addEventListener("click", function(e){
+          chrome.storage.sync.remove(this.getAttribute("key"));
+          listOfTasks.removeChild(this.parentElement);
+        });
+        item.appendChild(document.createTextNode(changes[key]["newValue"]));
+        item.appendChild(remove);
+        listOfTasks.appendChild(item);
       }
-    });
-  })
-
-
-
-  //submit urls section
-  function generateKey() {
-      return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
-  }
-
-  //adds a new website on the fly
-  chrome.storage.onChanged.addListener(function(changes, namespace){
-    for(let key in changes){
-      if (changes[key]["newValue"] === undefined){
-        break;
-      }
-      let blockedWebsites = document.getElementById("blocked-websites");
-      let item = document.createElement("li");
-      let remove = document.createElement("button");
-      remove.innerHTML = "remove";
-      remove.setAttribute("key", key);
-      remove.addEventListener("click", function(e){
-        chrome.storage.sync.remove(this.getAttribute("key"));
-        blockedWebsites.removeChild(this.parentElement);
-      });
-      item.appendChild(document.createTextNode(changes[key]["newValue"]));
-      item.appendChild(remove);
-      blockedWebsites.appendChild(item);
     }
   })
