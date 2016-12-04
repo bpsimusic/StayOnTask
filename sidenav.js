@@ -1,5 +1,3 @@
-
-
 function openNav() {
     document.getElementById("mySideNav").style.width = "250px";
 }
@@ -8,33 +6,23 @@ function closeNav() {
     document.getElementById("mySideNav").style.width = "0";
 }
 
-function printTime(hours, minutes){
-  if (minutes < 10){
-    minutes = "0" + minutes;
-  }
-  if (hours < 10){
-    hours = "0" + hours;
-  }
-  document.getElementById("timer").innerHTML = `${hours}:${minutes}`;
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
 }
 
-function startTimer(hours){
-  let minutes = 0;
-  let seconds = 0;
-  setInterval(function(){
-    seconds--;
-    if (seconds < 0) {
-      seconds = 59;
-      minutes--;
-    }
-    if (minutes < 0) {
-      minutes = 59;
-      hours--;
-    }
-    printTime(hours, minutes);
-  }, 1000);
-
-}
   //submit urls section
 function generateURLKey() {
     return ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4)
@@ -45,8 +33,14 @@ function generateTaskKey() {
     ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4));
 }
 
+function generateTimerID() {
+    return (("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4) +
+    ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4) +
+  ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4));
+}
+
+let timeLimit;
 $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
-    // startTimer(5);
     $($.parseHTML(data)).appendTo('body');
     let arrow = document.getElementById("arrow");
     let closeButton = document.getElementById("closebtn");
@@ -57,11 +51,7 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     formTask.addEventListener('submit', function(e){
       e.preventDefault();
       let task = document.getElementById("task-name").value;
-      let timeLimit = document.getElementById("time-limit").value;
-      
-      startTimer(timeLimit)
-      let timer = document.createElement("p");
-      p.innerHTML
+      timeLimit = document.getElementById("time-limit").value;
       let key = generateTaskKey();
       chrome.storage.sync.set({[key]: task});
       formTask.reset();
@@ -92,6 +82,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
             let that = this.parentElement
             blockedWebsites.removeChild(that);
           });
+
+
           item.appendChild(document.createTextNode(items[key]));
           item.appendChild(remove);
           blockedWebsites.appendChild(item);
@@ -106,9 +98,15 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
               let that = this.parentElement
               listOfTasks.removeChild(that);
             });
-            item.appendChild(document.createTextNode(items[key]));
+            item.appendChild(document.createTextNode(items[key][0]));
+            let clock = items[key][1];
+
+            let timer = document.createElement("p");
+            timer.id = generateTimerID();
             item.appendChild(remove);
+            item.appendChild(timer);
             listOfTasks.appendChild(item);
+            clock.countdown(timer.id);
         }
       }
     });
@@ -147,9 +145,13 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
           chrome.storage.sync.remove(this.getAttribute("key"));
           listOfTasks.removeChild(this.parentElement);
         });
+        let timer = document.createElement("p");
+
         item.appendChild(document.createTextNode(changes[key]["newValue"]));
         item.appendChild(remove);
+        item.appendChild(timer);
         listOfTasks.appendChild(item);
+        startTimer(timeLimit, timer)
       }
     }
   })
