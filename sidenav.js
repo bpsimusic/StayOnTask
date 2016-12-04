@@ -1,3 +1,5 @@
+
+
 function openNav() {
     document.getElementById("mySideNav").style.width = "250px";
 }
@@ -6,22 +8,22 @@ function closeNav() {
     document.getElementById("mySideNav").style.width = "0";
 }
 
-function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        if (--timer < 0) {
-            timer = duration;
-        }
-    }, 1000);
+function startTimer(){
+  chrome.storage.sync.get(null, function(items){
+  //shows the list of websites
+  if(Object.keys(items).length != 0)
+    for(let key in items) {
+      if (key.length === 8){
+        let d = Date.now();
+        let timeLeft = (items[key][1] - d);
+        let timer = document.getElementById(key);
+        timer.innerHTML = timeLeft;
+      }
+    }
+  });
 }
+
+setInterval(startTimer, 1000);
 
   //submit urls section
 function generateURLKey() {
@@ -53,7 +55,11 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       let task = document.getElementById("task-name").value;
       timeLimit = document.getElementById("time-limit").value;
       let key = generateTaskKey();
-      chrome.storage.sync.set({[key]: task});
+      let d = new Date();
+      d.setHours(d.getHours() + timeLimit);
+      let endTime = Date.parse(d);
+      debugger
+      chrome.storage.sync.set({[key]: [task, endTime]});
       formTask.reset();
     });
     //form to create a blocked website.
@@ -99,14 +105,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
               listOfTasks.removeChild(that);
             });
             item.appendChild(document.createTextNode(items[key][0]));
-            let clock = items[key][1];
-
-            let timer = document.createElement("p");
-            timer.id = generateTimerID();
             item.appendChild(remove);
-            item.appendChild(timer);
             listOfTasks.appendChild(item);
-            clock.countdown(timer.id);
         }
       }
     });
@@ -145,13 +145,12 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
           chrome.storage.sync.remove(this.getAttribute("key"));
           listOfTasks.removeChild(this.parentElement);
         });
-        let timer = document.createElement("p");
-
-        item.appendChild(document.createTextNode(changes[key]["newValue"]));
+        let timer = document.createElement("span");
+        timer.id = key;
+        item.appendChild(document.createTextNode(changes[key]["newValue"][0]));
         item.appendChild(remove);
         item.appendChild(timer);
         listOfTasks.appendChild(item);
-        startTimer(timeLimit, timer)
       }
     }
   })
