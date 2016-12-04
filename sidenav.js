@@ -14,10 +14,23 @@ function startTimer(){
   if(Object.keys(items).length != 0)
     for(let key in items) {
       if (key.length === 8){
-        let d = Date.now();
-        let timeLeft = (items[key][1] - d);
+        let inMilli = Date.parse(new Date());
+        let milliSecsLeft = (items[key][1] - inMilli);
+        let minutesLeft = Math.floor(milliSecsLeft / (1000 * 60))
+
         let timer = document.getElementById(key);
-        timer.innerHTML = timeLeft;
+        let hours = "00";
+        let minutes = minutesLeft % 60;
+        
+        if (minutesLeft >= 60){
+          hours = Math.floor(minutesLeft / 60);
+          hours = "0" + hours;
+        }
+
+        if(minutes < 10){
+          minutes = "0" + minutes;
+        }
+        timer.innerHTML = `${hours}:${minutes}`;
       }
     }
   });
@@ -56,10 +69,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       timeLimit = document.getElementById("time-limit").value;
       let key = generateTaskKey();
       let d = new Date();
-      d.setHours(d.getHours() + timeLimit);
-      let endTime = Date.parse(d);
-      debugger
-      chrome.storage.sync.set({[key]: [task, endTime]});
+      let milliSecs = Date.parse(d) + (60 * 60 * 1000 * timeLimit);
+      chrome.storage.sync.set({[key]: [task, milliSecs]});
       formTask.reset();
     });
     //form to create a blocked website.
@@ -104,8 +115,11 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
               let that = this.parentElement
               listOfTasks.removeChild(that);
             });
+            let timer = document.createElement("span");
+            timer.id = key;
             item.appendChild(document.createTextNode(items[key][0]));
             item.appendChild(remove);
+            item.appendChild(timer);
             listOfTasks.appendChild(item);
         }
       }
