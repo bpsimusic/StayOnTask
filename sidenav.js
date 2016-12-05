@@ -22,16 +22,23 @@ function startTimer(){
         let hours = "00";
         let minutes = minutesLeft % 60;
 
-        if (minutesLeft >= 60){
-          hours = Math.floor(minutesLeft / 60);
-          hours = "0" + hours;
-        }
-
-        if(minutes < 10){
-          minutes = "0" + minutes;
+        if (hours <=0 && minutes <=0 ){
+          hours = "00";
+          minutes = "00";
         } else {
-          minutes = minutes
+          if (minutesLeft >= 60){
+            hours = Math.floor(minutesLeft / 60);
+            hours = "0" + hours;
+          }
+          if(minutes < 10){
+            minutes = "0" + minutes;
+          } else {
+            minutes = minutes;
+          }
         }
+        //working on this.
+
+
         timer.innerHTML = `Time Left: ${hours}:${minutes}`;
       }
     }
