@@ -18,6 +18,13 @@
     font-weight: normal;
 }
 
+#blocked-websites {
+  padding-left: 0px;
+  margin: 0px;
+  text-align: center;
+  height: 100px;
+  overflow: scroll;
+}
 #flex-container {
   display: flex;
   justify-content: space-between;
@@ -87,6 +94,9 @@
 
 #task-list {
   padding-left: 0px;
+  margin: 0px;
+  height: 100px;
+  overflow: scroll;
 }
 
 .task-list-item {
@@ -108,6 +118,7 @@
   font-weight: normal;
   background-color:white;
   cursor: pointer;
+  color: black;
 }
 
 #mySideNav button:focus {

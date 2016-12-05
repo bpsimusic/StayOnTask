@@ -124,10 +124,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
             checkbox.setAttribute("value", "completed");
             let checkboxID = key + "checkbox"
             checkbox.id = checkboxID;
-            // let label = document.createElement("label");
-            // label.htmlFor = checkboxID;
-            // label.innerHTML = "Complete";
-            // label.className = "checkbox-label";
             let task = document.createElement("div");
             task.innerHTML = items[key][0];
             task.className= "task-title"
@@ -136,13 +132,12 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
 
 
             flex.appendChild(timer);
-            // flex.appendChild(label);
             flex.appendChild(checkbox);
             flex.appendChild(remove);
             item.appendChild(task);
             item.appendChild(flex);
             listOfTasks.appendChild(item);
-            $(`#${checkboxID}`).wrap("<label>Completed</label>")
+            $(`#${checkboxID}`).wrap("<label>Complete</label>")
         }
       }
     });
@@ -151,9 +146,12 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     updateTasks.addEventListener("click", function(){
       let list = document.getElementById("task-list");
       let listItems = list.children;
-      for (let i = 0; i < listItems.length; i++) {
+      let removeTasks = [];
+      for (let i = (listItems.length-1); i >= 0; i--) {
         if (listItems[i].querySelector("input").checked){
-            let key = listItems[i].querySelector("input").id
+            let key = listItems[i].querySelector("input").id;
+            key= key.slice(0,8);
+            //this is the problem
             chrome.storage.sync.remove(key);
             list.removeChild(listItems[i]);
           }
@@ -202,10 +200,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         checkbox.setAttribute("value", "completed");
         let checkboxID = key + "checkbox";
         checkbox.id = checkboxID;
-        // let label = document.createElement("label");
-        // label.htmlFor = checkboxID;
-        // label.innerHTML = "Complete";
-        // label.className = "checkbox-label";
         let task = document.createElement("div");
         task.innerHTML = changes[key]["newValue"][0];
         task.className = "task-title";
@@ -213,7 +207,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         let flex = document.createElement("div");
         flex.id = "flex-container";
         flex.appendChild(timer);
-        // flex.appendChild(label);
         flex.appendChild(checkbox);
         flex.appendChild(remove);
         item.appendChild(task);
