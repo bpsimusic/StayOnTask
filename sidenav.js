@@ -1,7 +1,7 @@
 
 
 function openNav() {
-    document.getElementById("mySideNav").style.width = "250px";
+    document.getElementById("mySideNav").style.width = "300px";
 }
 
 function closeNav() {
@@ -32,7 +32,7 @@ function startTimer(){
         } else {
           minutes = minutes
         }
-        timer.innerHTML = `${hours}:${minutes}`;
+        timer.innerHTML = `Time Left: ${hours}:${minutes}`;
       }
     }
   });
@@ -109,25 +109,40 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
           //show the list of tasks
         } else if (key.length === 8) {
             let item = document.createElement("li");
+            item.className = "task-list-item";
             let remove = document.createElement("button");
             remove.innerHTML = "remove";
             remove.setAttribute("key", key);
             remove.addEventListener("click", function(e){
               chrome.storage.sync.remove(this.getAttribute("key"));
-              let that = this.parentElement
-              listOfTasks.removeChild(that);
+              $(this).closest('li').remove();
             });
             let timer = document.createElement("span");
             timer.id = key;
             let checkbox = document.createElement("input");
             checkbox.setAttribute("type", "checkbox");
             checkbox.setAttribute("value", "completed");
-            checkbox.id = key;
-            item.appendChild(document.createTextNode(items[key][0]));
-            item.appendChild(timer);
-            item.appendChild(checkbox);
-            item.appendChild(remove);
+            let checkboxID = key + "checkbox"
+            checkbox.id = checkboxID;
+            // let label = document.createElement("label");
+            // label.htmlFor = checkboxID;
+            // label.innerHTML = "Complete";
+            // label.className = "checkbox-label";
+            let task = document.createElement("div");
+            task.innerHTML = items[key][0];
+            task.className= "task-title"
+            let flex = document.createElement("div");
+            flex.id = "flex-container";
+
+
+            flex.appendChild(timer);
+            // flex.appendChild(label);
+            flex.appendChild(checkbox);
+            flex.appendChild(remove);
+            item.appendChild(task);
+            item.appendChild(flex);
             listOfTasks.appendChild(item);
+            $(`#${checkboxID}`).wrap("<label>Completed</label>")
         }
       }
     });
@@ -172,24 +187,39 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       } else if (key.length === 8){
         let listOfTasks = document.getElementById("task-list");
         let item = document.createElement("li");
+        item.className = "task-list-item"
         let remove = document.createElement("button");
         remove.innerHTML = "remove";
         remove.setAttribute("key", key);
         remove.addEventListener("click", function(e){
           chrome.storage.sync.remove(this.getAttribute("key"));
-          listOfTasks.removeChild(this.parentElement);
+          $(this).closest('li').remove();
         });
         let timer = document.createElement("span");
         timer.id = key;
         let checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
         checkbox.setAttribute("value", "completed");
-        checkbox.id = key;
-        item.appendChild(document.createTextNode(changes[key]["newValue"][0]));
-        item.appendChild(timer);
-        item.appendChild(checkbox);
-        item.appendChild(remove);
+        let checkboxID = key + "checkbox";
+        checkbox.id = checkboxID;
+        // let label = document.createElement("label");
+        // label.htmlFor = checkboxID;
+        // label.innerHTML = "Complete";
+        // label.className = "checkbox-label";
+        let task = document.createElement("div");
+        task.innerHTML = changes[key]["newValue"][0];
+        task.className = "task-title";
+
+        let flex = document.createElement("div");
+        flex.id = "flex-container";
+        flex.appendChild(timer);
+        // flex.appendChild(label);
+        flex.appendChild(checkbox);
+        flex.appendChild(remove);
+        item.appendChild(task);
+        item.appendChild(flex);
         listOfTasks.appendChild(item);
+        $(`#${checkboxID}`).wrap("<label>Complete</label>")
       }
     }
   })

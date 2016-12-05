@@ -18,6 +18,12 @@
     font-weight: normal;
 }
 
+#flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 #mySideNav>h1 {
   font-family: Helvetica;
   font-weight: bold;
@@ -77,6 +83,21 @@
     font-size: 16px;
     margin-left: 50px;
     z-index:50;
+}
+
+#task-list {
+  padding-left: 0px;
+}
+
+.task-list-item {
+  font-size: 14px;
+
+}
+
+.task-title {
+  text-align: left;
+  margin-left: 5px;
+  font-weight: bold;
 }
 
 #mySideNav button {
