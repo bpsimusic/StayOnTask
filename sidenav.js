@@ -21,7 +21,7 @@ function startTimer(){
         let timer = document.getElementById(key);
         let hours = "00";
         let minutes = minutesLeft % 60;
-        
+
         if (minutesLeft >= 60){
           hours = Math.floor(minutesLeft / 60);
           hours = "0" + hours;
@@ -29,6 +29,8 @@ function startTimer(){
 
         if(minutes < 10){
           minutes = "0" + minutes;
+        } else {
+          minutes = minutes
         }
         timer.innerHTML = `${hours}:${minutes}`;
       }
@@ -54,7 +56,7 @@ function generateTimerID() {
   ("0000" + (Math.random()*Math.pow(36,4) << 0).toString(36)).slice(-4));
 }
 
-let timeLimit;
+
 $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     $($.parseHTML(data)).appendTo('body');
     let arrow = document.getElementById("arrow");
@@ -66,11 +68,12 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     formTask.addEventListener('submit', function(e){
       e.preventDefault();
       let task = document.getElementById("task-name").value;
-      timeLimit = document.getElementById("time-limit").value;
+      let timeLimit = document.getElementById("time-limit").value;
       let key = generateTaskKey();
       let d = new Date();
       let milliSecs = Date.parse(d) + (60 * 60 * 1000 * timeLimit);
-      chrome.storage.sync.set({[key]: [task, milliSecs]});
+      let taskDetails = [task, milliSecs]
+      chrome.storage.sync.set({[key]: taskDetails});
       formTask.reset();
     });
     //form to create a blocked website.
@@ -100,7 +103,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
             blockedWebsites.removeChild(that);
           });
 
-
           item.appendChild(document.createTextNode(items[key]));
           item.appendChild(remove);
           blockedWebsites.appendChild(item);
@@ -117,13 +119,31 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
             });
             let timer = document.createElement("span");
             timer.id = key;
+            let checkbox = document.createElement("input");
+            checkbox.setAttribute("type", "checkbox");
+            checkbox.setAttribute("value", "completed");
+            checkbox.id = key;
             item.appendChild(document.createTextNode(items[key][0]));
-            item.appendChild(remove);
             item.appendChild(timer);
+            item.appendChild(checkbox);
+            item.appendChild(remove);
             listOfTasks.appendChild(item);
         }
       }
     });
+    //Update Tasks
+    let updateTasks = document.getElementById("update-tasks");
+    updateTasks.addEventListener("click", function(){
+      let list = document.getElementById("task-list");
+      let listItems = list.children;
+      for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i].querySelector("input").checked){
+            let key = listItems[i].querySelector("input").id
+            chrome.storage.sync.remove(key);
+            list.removeChild(listItems[i]);
+          }
+        }
+      });
   })
 //end of ajax
 
@@ -161,9 +181,14 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         });
         let timer = document.createElement("span");
         timer.id = key;
+        let checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.setAttribute("value", "completed");
+        checkbox.id = key;
         item.appendChild(document.createTextNode(changes[key]["newValue"][0]));
-        item.appendChild(remove);
         item.appendChild(timer);
+        item.appendChild(checkbox);
+        item.appendChild(remove);
         listOfTasks.appendChild(item);
       }
     }
