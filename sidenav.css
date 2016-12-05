@@ -5,10 +5,37 @@
     z-index: 100;
     font-size: 30px;
     cursor: pointer;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-bottom: 5px;
-    background-color: white;
+    background-color:white;
+    border: 1px grey solid;
+    width: 30px;
+    height: 30px;
+    box-sizing: content-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+#mySideNav>h1 {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 20px 0px;
+  text-align: center;
+}
+
+#mySideNav>ul {
+  list-style: none;
+}
+
+#task-name {
+  margin: 5px;
+}
+
+#time-limit {
+  margin: 5px;
 }
 
 .sidenav {
@@ -21,8 +48,10 @@
     background-color: white;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 0px, 0px 6px 20px;
+    font-family: Helvetica;
+    font-size: 14px;
+
 }
 
 /*this decorates all your links */
@@ -37,22 +66,38 @@
 
 .sidenav a:hover, .offcanvas a:focus{
     color: #f1f1f1;
+    cursor: pointer;
 }
 
 .sidenav .closebtn {
     position: absolute;
-    bottom: 60px;
-font-size: 18px;
-right: 10px;
+    bottom: 0px;
+    font-size: 18px;
+    right: 10px;
     font-size: 16px;
     margin-left: 50px;
+    z-index:50;
 }
 
-ul {
-  list-style: none;
+#mySideNav button {
+  border: 1px black solid;
+  border-radius: 3px;
+  font-family: Helvetica;
+  font-size: 12px;
+  font-weight: normal;
+  background-color:white;
+  cursor: pointer;
+}
+
+#mySideNav button:focus {
+  outline: none;
 }
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+#mySideNav input {
+  margin: 10px;
 }
