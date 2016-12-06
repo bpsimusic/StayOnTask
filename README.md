@@ -1,53 +1,52 @@
 # Stay On Task
 
+Stay On Task is a Google Chrome Extension that blocks websites and creates a customized to-do list. It uses the chrome.storage API to store websites and tasks, as well as content-scripts to provide the user interface on each browser tab.
 
-### Background
-
-A lot of work is done on the Internet, which means there are also a lot of distractions. A 5-minute visit to Facebook, YouTube, and other social media sites can be distracting and end up taking hours of your time. Stay on Task is a Chrome extension that blocks you from visiting certain websites, as well as providing a personal to-do list written in JavaScript.
-
-
-### Functionality and MVP
-
-Users will be able to:
-- Submit urls they don't want to visit. When the user attempts to visit a blocked url, a blank page with a message is shown.
-- Create a to-do list: each to-do has a time limit.
-- The to-do list will be a pop-up bar on the left side of the browser.
-- Each to-do can be created/deleted/checked off.
-- The ability to turn off the extension.
+![image of Stay On Task](/docs/StayOnTask.png)
 
 
-### Architecture and Technologies
+## Manifest.json
 
-I will be using JavaScript to create the Todo list.
+The background key for Manifest.json tells the chrome extension which files will be running in the background throughout the duration of the extension. Background.js deals with the logic of the website blocking.
 
-I will be researching HTTP requests to see how to prevent a site from being reached.
+The content scripts key for Manifest.json describes which files to inject into the browser's HTML page. Matches describes which urls to inject the content scripts: document_end tells the browser to load the JavaScript and CSS files when the browser's HTML file has finished loading.
 
-I will use JavaScript to create a timer.
+Web accessible resources tells Manifest.json to include any additional files that are not CSS or JS.
 
-### Wireframes
+![image of Manifest](/docs/manifest.png)
 
-There will be a pop-up sidebar that can appear whenever you toggle it.
 
-![wireframes](/docs/wireframes/StayOnTask.png)
+## Website Blocking
 
-### Implementation Timeline
+The user adds which websites they want to block, which get added to chrome.storage. Chrome.storage acts like a database: it stores user data in a huge JSON object. Use these methods
+to store data and retrieve data from chrome.storage.
 
-**(Two Days)**
-Get setup. Research Technologies, especially how to create a Chrome Extension. Start off by researching on how to block a get request to a website. By end of day two, should be able to not visit a website like Facebook.
+```javascript
 
-**(Three Days)**
-Get started on To-do list. Because you won't be using React, find a way to write JavaScript that will create Todo list items for you. By the end of day three, should be able to create, delete, and edit todo list items.
+chrome.storage.sync.set({Object}, optional callback);
+chrome.storage.sync.get(null, function(items){
 
-**(Two Days)**
+});
+```
+Background.js compares each tab's url against the websites stored in the database: if they match,
+the tab's url is changed to serve **message.html**, a local file in StayOnTask.
 
-Add JavaScript interface for adding websites to be blocked.
+![image of message.html](/docs/message.png)
 
-**(One Day)**
-Be able to disable the extension.
+## Content Scripts
 
-**(Two Days)**
-Finish up loose ends and fix bugs.
+The Content Script **sidenav.js** works in conjunction with **sidenav.html**. **Sidenav.js** uses jQuery to fetch the html elements in **sidenav.html** and appends them to the body of the current tab.
 
-**Bonus:**
-- Create a new feature that tracks how long you have spent on each website.
-- Create a daily log that reports how long you have spent on each website, as well as how many tasks you have completed successfully.
+```javascript
+$.get(chrome.extension.getURL('/sidenav.html'), function(data) {
+    $($.parseHTML(data)).appendTo('body');
+  });
+```
+
+Thus, the user interface (small arrow in the lower left corner of the tab) will appear on each tab.
+
+## Future Project Plans
+
+- Improve user interface to notify users when a task's deadline is due.
+- Improve CSS interface to have uniformity across all tabs.
+- Include an option to toggle the interface on/off.
