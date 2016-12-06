@@ -4,8 +4,9 @@
   <a class="closebtn" id="closebtn" >close</a>
 
   <h1>Add a Task</h1>
+  <div class="task-form-container">
   <form id="task-form">
-    <div class="task-form-container"> 
+
     <label>Task Name:
     <input type="text" id="task-name">
     </label>
@@ -22,11 +23,11 @@
     </label>
     <br>
     <button>Submit</button>
-    </div>
   </form>
+</div>
 
 
-  <br><br>
+  <br>
   <h1>Tasks</h1>
   <ul id="task-list">
 
@@ -35,13 +36,14 @@
   <br>
   <br>
   <h1>Add website to block:</h1>
-
-  <i>Example: www.facebook.com </i>
+  <div class="website-form-container">
+  Example: <i>www.facebook.com</i>
   <br>
   <form id="website-form">
     Website url: <input type="text" name="name" id="website-entry">
     <button>Submit</button>
   </form>
+  </div>
   <br>
   <h1>Blocked Websites</h1>
   <ul id="blocked-websites">
