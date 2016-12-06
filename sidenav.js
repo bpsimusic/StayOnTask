@@ -88,9 +88,16 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     formURL.addEventListener('submit', function(e){
       e.preventDefault();
       let website = document.getElementById("website-entry").value;
-      let key = generateURLKey();
-      chrome.storage.sync.set({[key]: website});
-      formURL.reset();
+      let error = document.getElementById("form-error");
+      if (/^(www\..+)/.test(website)){
+        let key = generateURLKey();
+        chrome.storage.sync.set({[key]: website});
+        error.innerHTML = "";
+        formURL.reset();
+      } else {
+        error.innerHTML = "website must follow the format listed in example";
+        error.style.color = "red";
+      }
     });
 
     //creating the api
