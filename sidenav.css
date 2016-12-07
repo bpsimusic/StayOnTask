@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    z-index: 100;
+    z-index: 2000000000;
     font-size: 30px;
     cursor: pointer;
     background-color:white;
@@ -59,7 +59,7 @@
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 101;
+    z-index: 99999999999;
     top: 0;
     left: 0;
     background-color: white;
@@ -93,7 +93,7 @@
     right: 10px;
     font-size: 16px;
     margin-left: 50px;
-    z-index:50;
+    z-index:99999999999;
 }
 
 .task-form-container{
