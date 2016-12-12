@@ -67,7 +67,6 @@ function generateTimerID() {
 $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     $($.parseHTML(data)).appendTo('body');
     let arrow = document.getElementById("arrow");
-    debugger
     let closeButton = document.getElementById("closebtn-stayontask");
     arrow.addEventListener("click", openNav);
     closeButton.addEventListener("click", closeNav);
