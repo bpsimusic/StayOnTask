@@ -68,7 +68,7 @@
 
 input {
   font-size:12pt;
-  width: 150px;
+  width: 140px;
 }
 
 input[type='checkbox'] {
@@ -87,6 +87,29 @@ input[type='checkbox'] {
 
 #mySideNav>ul {
   list-style: none;
+}
+
+#mySideNav button {
+  border: 1px black solid;
+  border-radius: 3px;
+  font-family: Helvetica;
+  font-size: 12px;
+  font-weight: normal;
+  background-color:white;
+  cursor: pointer;
+  color: black;
+}
+
+#mySideNav button:focus {
+  outline: none;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#mySideNav input {
 }
 
 #task-name {
@@ -117,6 +140,11 @@ input[type='checkbox'] {
     color: black;
 }
 
+.sidenav button {
+  padding: 0px 4px;
+  height: 20px;
+  min-height: 5px;
+}
 /*this decorates all your links */
 .sidenav a {
     padding: 8px 8px 8px 32px;
@@ -184,33 +212,21 @@ input[type='checkbox'] {
   text-align: center;
 }
 
+
+
+
+
 .task-title {
   text-align: left;
   margin-left: 5px;
   font-weight: bold;
 }
 
-#mySideNav button {
-  border: 1px black solid;
-  border-radius: 3px;
-  font-family: Helvetica;
-  font-size: 12px;
-  font-weight: normal;
-  background-color:white;
-  cursor: pointer;
-  color: black;
-}
 
-#mySideNav button:focus {
-  outline: none;
-}
 
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
-}
-
-#mySideNav input {
+#update-tasks-button {
+  position: relative;
+  top: -1px;
 }
 
 .website-form-container {

@@ -158,7 +158,7 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       }
     });
     //Update Tasks
-    let updateTasks = document.getElementById("update-tasks");
+    let updateTasks = document.getElementById("update-tasks-button");
     updateTasks.addEventListener("click", function(){
       let list = document.getElementById("task-list");
       let listItems = list.children;
