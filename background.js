@@ -16,7 +16,8 @@ chrome.tabs.onUpdated.addListener(function() {
   getTabsUrl(function(url, tabId) {
     chrome.storage.sync.get(null, function(items){
       for(var key in items) {
-        if (url.includes(items[key])){
+        let websiteName = items[key].slice(4);
+        if (url.includes(websiteName)){
           let myNewUrl = "/message.html";
           chrome.tabs.update(tabId, {url: myNewUrl});
         }
