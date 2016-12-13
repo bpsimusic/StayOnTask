@@ -1,15 +1,3 @@
-.stayOnTask {
-  margin: 0;
-  border: 0;
-  padding: 0;
-  outline: 0;
-  box-sizing: inherit;
-  font: inherit;
-  text-decoration: inherit;
-  text-align: inherit;
-  color: inherit;
-  background: transparent;
-}
 
 #arrow {
     position: fixed;
@@ -32,15 +20,18 @@
 }
 
 #blocked-websites {
-  border-top: 1px solid black;
   padding-left: 0px;
   margin: 0px;
   margin-top: 5px;
   text-align: center;
-  height: 70px;
+  height: 100px;
   overflow: scroll;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+#blocked-websites:hover {
+  box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,1);
 }
 
 #blocked-websites li {
@@ -52,6 +43,7 @@
   margin-left: 5px;
 }
 
+
 #flex-container {
   display: flex;
   justify-content: space-between;
@@ -62,11 +54,12 @@
 }
 
 #form-error {
-  margin-top: 3px;
+  display:inline-block;
 }
 
 .website-half {
   background: #FEFEF2;
+  height: 50%;
 }
 
 #flex-container button {
@@ -87,6 +80,7 @@ input[type='checkbox'] {
   font-weight: bold;
   font-size: 20px;
   padding-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
   text-align: center;
 }
@@ -120,6 +114,7 @@ input[type='checkbox'] {
     font-family: Helvetica;
     font-size: 14px;
     text-align: left;
+    color: black;
 }
 
 /*this decorates all your links */
@@ -150,7 +145,10 @@ input[type='checkbox'] {
 #task-form {
   position: relative;
   left: 10px;
+}
 
+#taskform-error {
+  display: inline-block;
 }
 .task-form-container{
   width: 80%;
@@ -160,6 +158,7 @@ input[type='checkbox'] {
 
 .task-half {
   background: #F0F8FF;
+  height: 50%;
 }
 
 #task-list {
@@ -167,14 +166,15 @@ input[type='checkbox'] {
   margin: 0px;
   height: 100px;
   overflow: scroll;
-  border-top: 1px black solid;
-  border-bottom: 1px black solid;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
+#task-list:hover{
+    box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,1);
+}
 .task-list-item {
   font-size: 14px;
   margin-bottom:10px;
@@ -215,7 +215,7 @@ input[type='checkbox'] {
 
 .website-form-container {
     width: 95%;
-    height: 100px;
+    height: 80px;
     padding-top: 6px;
     position: relative;
     left: 10px;

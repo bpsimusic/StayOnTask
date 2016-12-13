@@ -36,9 +36,6 @@ function startTimer(){
             minutes = minutes;
           }
         }
-        //working on this.
-
-
         timer.innerHTML = `Time Left: ${hours}:${minutes}`;
       }
     }
@@ -79,9 +76,16 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       let key = generateTaskKey();
       let d = new Date();
       let milliSecs = Date.parse(d) + (60 * 60 * 1000 * timeLimit);
-      let taskDetails = [task, milliSecs]
-      chrome.storage.sync.set({[key]: taskDetails});
-      formTask.reset();
+      let error = document.getElementById("taskform-error");
+      if (task === ""){
+        error.innerHTML = "Task must not be blank";
+        error.style.color = "red";
+      } else {
+        let taskDetails = [task, milliSecs]
+        chrome.storage.sync.set({[key]: taskDetails});
+        error.innerHTML = "";
+        formTask.reset();
+      }
     });
     //form to create a blocked website.
     let formURL = document.getElementById("website-form");
@@ -143,8 +147,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
             task.className= "task-title"
             let flex = document.createElement("div");
             flex.id = "flex-container";
-
-
             flex.appendChild(timer);
             flex.appendChild(checkbox);
             flex.appendChild(remove);
@@ -165,7 +167,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         if (listItems[i].querySelector("input").checked){
             let key = listItems[i].querySelector("input").id;
             key= key.slice(0,8);
-            //this is the problem
             chrome.storage.sync.remove(key);
             list.removeChild(listItems[i]);
           }
@@ -209,6 +210,7 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         });
         let timer = document.createElement("span");
         timer.id = key;
+        timer.innerHTML = "Time Left: 00:00"
         let checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
         checkbox.setAttribute("value", "completed");
