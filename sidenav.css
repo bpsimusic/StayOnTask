@@ -32,23 +32,61 @@
 }
 
 #blocked-websites {
+  border-top: 1px solid black;
   padding-left: 0px;
   margin: 0px;
+  margin-top: 5px;
   text-align: center;
-  height: 100px;
+  height: 70px;
   overflow: scroll;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+
+#blocked-websites li {
+  margin-bottom: 5px;
+}
+
+#blocked-websites button {
+  height: 20px;
+  margin-left: 5px;
+}
+
 #flex-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  width: 95%;
+  left: 5px;
 }
 
-#mySideNav>h1 {
+#form-error {
+  margin-top: 3px;
+}
+
+.website-half {
+  background: #FEFEF2;
+}
+
+#flex-container button {
+  height: 20px;
+}
+
+input {
+  font-size:12pt;
+  width: 150px;
+}
+
+input[type='checkbox'] {
+  width: 20px;
+}
+
+#mySideNav h1 {
   font-family: Helvetica;
   font-weight: bold;
   font-size: 20px;
-  margin-top: 10px;
+  padding-top: 10px;
   margin-bottom: 0px;
   text-align: center;
 }
@@ -67,7 +105,7 @@
   margin: 5px;
   margin-top: 0px;
 }
-
+/**your parent element**/
 .sidenav {
     height: 100%;
     width: 0;
@@ -81,7 +119,7 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 0px, 0px 6px 20px;
     font-family: Helvetica;
     font-size: 14px;
-
+    text-align: left;
 }
 
 /*this decorates all your links */
@@ -109,21 +147,41 @@
     z-index:99999999999;
 }
 
+#task-form {
+  position: relative;
+  left: 10px;
+
+}
 .task-form-container{
   width: 80%;
+  height: 80px;
   text-align: left;
 }
 
+.task-half {
+  background: #F0F8FF;
+}
+
 #task-list {
-  padding-left: 0px;
+  padding-left: 4px;
   margin: 0px;
   height: 100px;
   overflow: scroll;
+  border-top: 1px black solid;
+  border-bottom: 1px black solid;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .task-list-item {
   font-size: 14px;
+  margin-bottom:10px;
+}
 
+.task-list-container {
+  text-align: center;
 }
 
 .task-title {
@@ -156,7 +214,18 @@
 }
 
 .website-form-container {
-  text-align: left;
-  width: 80%;
-  padding-top: 5px;
+    width: 95%;
+    height: 100px;
+    padding-top: 6px;
+    position: relative;
+    left: 10px;
+}
+
+#website-form {
+  height: 50px;
+  margin-top: 5px;
+}
+
+#website-form button {
+  margin-top: 5px;
 }

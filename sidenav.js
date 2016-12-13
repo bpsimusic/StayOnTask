@@ -95,7 +95,7 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         error.innerHTML = "";
         formURL.reset();
       } else {
-        error.innerHTML = "website must follow the format listed in example";
+        error.innerHTML = "website must follow example format";
         error.style.color = "red";
       }
     });

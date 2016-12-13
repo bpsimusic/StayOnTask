@@ -1,56 +1,58 @@
 
 
 <div id="mySideNav" class="sidenav">
-  <a class="closebtn" id="closebtn-stayontask" >close</a>
-  <h1>Add a Task</h1>
-  <div class="task-form-container">
-  <form id="task-form">
+  <div class="task-half">
+    <a class="closebtn" id="closebtn-stayontask" >close</a>
+    <h1>Add a Task</h1>
+    <div class="task-form-container">
+    <form id="task-form">
 
-    <label>Task Name:
-    <input type="text" id="task-name">
-    </label>
+      <label>Task Name:
+      <input type="text" id="task-name">
+      </label>
 
+      <br>
+      <label>Time Limit:
+        <select id="time-limit">
+          <option value="1">1 hr</option>
+          <option value="2">2 hrs</option>
+          <option value="3">3 hrs</option>
+          <option value="4">4 hrs</option>
+          <option value="5">5 hrs</option>
+        </select>
+      </label>
+      <br>
+      <button>Submit</button>
+    </form>
+  </div>
+    <div class="task-list-container">
+      <h1>Tasks</h1>
+      <ul id="task-list">
+
+      </ul>
+      <button id="update-tasks">Update Tasks</button>
+    </div>
     <br>
-    <label>Time Limit:
-      <select id="time-limit">
-        <option value="1">1 hr</option>
-        <option value="2">2 hrs</option>
-        <option value="3">3 hrs</option>
-        <option value="4">4 hrs</option>
-        <option value="5">5 hrs</option>
-      </select>
-    </label>
-    <br>
-    <button>Submit</button>
-  </form>
-</div>
+  </div>
+  <div class="website-half">
+      <h1>Add website to block:</h1>
+      <div class="website-form-container">
+        Example: <i>www.facebook.com</i>
+      <br>
+      <form id="website-form">
+        Website url: <input type="text" name="name" id="website-entry">
+        <br>
+        <button>Submit</button>
+      </form>
 
+        <div id="form-error">
 
-  <br>
-  <h1>Tasks</h1>
-  <ul id="task-list">
+        </div>
+      </div>
 
-  </ul>
-  <button id="update-tasks">Update Tasks</button>
-  <br>
-  <br>
-  <h1>Add website to block:</h1>
-  <div class="website-form-container">
-  Example: <i>www.facebook.com</i>
-  <br>
-  <form id="website-form">
-    Website url: <input type="text" name="name" id="website-entry">
-    <button>Submit</button>
-  </form>
-    <div id="form-error">
-
+      <h1>Blocked Websites</h1>
+      <ul id="blocked-websites">
+      </ul>
     </div>
   </div>
-  <br>
-  <h1>Blocked Websites</h1>
-  <ul id="blocked-websites">
-  </ul>
-</div>
-
-
 <span id="arrow">&rarr;</span>
