@@ -1,4 +1,11 @@
 
+
+chrome.browserAction.onClicked.addListener(function(tab){
+  chrome.tabs.executeScript(
+    null, {file: "toggleNavBar.js"}
+  );
+});
+
 function getTabsUrl(callback) {
   var queryInfo = {
     currentWindow: true
