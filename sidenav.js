@@ -1,4 +1,10 @@
-
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request === "toggleNav")
+      document.getElementById("mySideNav").style.width === "300px" ?
+      closeNav() : openNav();
+      sendResponse({farewell: "goodbye"});
+  });
 
 function openNav() {
     document.getElementById("mySideNav").style.width = "300px";

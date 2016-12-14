@@ -1,10 +1,12 @@
 
 
 chrome.browserAction.onClicked.addListener(function(tab){
-  chrome.tabs.executeScript(
-    null, {file: "toggleNavBar.js"}
-  );
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, "toggleNav", function(response) {
+    });
+  });
 });
+
 
 function getTabsUrl(callback) {
   var queryInfo = {
