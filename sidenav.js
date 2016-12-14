@@ -96,6 +96,7 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       if (/^(www\..+)/.test(website)){
         let key = generateURLKey();
         chrome.storage.sync.set({[key]: website});
+        debugger
         error.innerHTML = "";
         formURL.reset();
       } else {

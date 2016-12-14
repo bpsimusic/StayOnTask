@@ -17,8 +17,10 @@ chrome.tabs.onUpdated.addListener(function() {
     chrome.storage.sync.get(null, function(items){
       for(var key in items) {
         let websiteName = items[key].slice(4);
-        if (url.includes(websiteName)){
+        //safeguards
+        if (url.includes(websiteName) && url.length > 0 && websiteName.length > 0){
           let myNewUrl = "/message.html";
+          debugger
           chrome.tabs.update(tabId, {url: myNewUrl});
         }
       }
