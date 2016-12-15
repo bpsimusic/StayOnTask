@@ -71,6 +71,10 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
     $($.parseHTML(data)).appendTo('body');
     let closeButton = document.getElementById("closebtn-stayontask");
     closeButton.addEventListener("click", closeNav);
+    var ss = document.createElement("link");
+    ss.rel = "stylesheet";
+    ss.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+    document.getElementsByTagName("head")[0].appendChild(ss);
     //form to create a task
     let formTask = document.getElementById("task-form");
     formTask.addEventListener('submit', function(e){
@@ -117,8 +121,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       for(let key in items) {
         if (key.length === 4){
           let item = document.createElement("li");
-          let remove = document.createElement("button");
-          remove.innerHTML = "remove";
+          let remove = document.createElement("span");
+          remove.className = "fa fa-trash-o";
           remove.setAttribute("key", key);
           remove.addEventListener("click", function(e){
             chrome.storage.sync.remove(this.getAttribute("key"));
@@ -133,8 +137,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         } else if (key.length === 8) {
             let item = document.createElement("li");
             item.className = "task-list-item";
-            let remove = document.createElement("button");
-            remove.innerHTML = "remove";
+            let remove = document.createElement("span");
+            remove.className = "fa fa-trash-o";
             remove.setAttribute("key", key);
             remove.addEventListener("click", function(e){
               chrome.storage.sync.remove(this.getAttribute("key"));
@@ -191,8 +195,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
       if (key.length === 4){
         let blockedWebsites = document.getElementById("blocked-websites");
         let item = document.createElement("li");
-        let remove = document.createElement("button");
-        remove.innerHTML = "remove";
+        let remove = document.createElement("span");
+        remove.className = "fa fa-trash-o";
         remove.setAttribute("key", key);
         remove.addEventListener("click", function(e){
           chrome.storage.sync.remove(this.getAttribute("key"));
@@ -206,8 +210,8 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
         let listOfTasks = document.getElementById("task-list");
         let item = document.createElement("li");
         item.className = "task-list-item"
-        let remove = document.createElement("button");
-        remove.innerHTML = "remove";
+        let remove = document.createElement("span");
+        remove.className = "fa fa-trash-o";
         remove.setAttribute("key", key);
         remove.addEventListener("click", function(e){
           chrome.storage.sync.remove(this.getAttribute("key"));

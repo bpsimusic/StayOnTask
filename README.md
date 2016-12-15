@@ -43,8 +43,6 @@ $.get(chrome.extension.getURL('/sidenav.html'), function(data) {
   });
 ```
 
-Thus, the user interface (small arrow in the lower left corner of the tab) will appear on each tab.
-
 ## Future Project Plans
 
 - Improve user interface to notify users when a task's deadline is due.
