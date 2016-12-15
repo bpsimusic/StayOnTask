@@ -1,24 +1,4 @@
 
-#arrow {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 2000000000;
-    font-size: 30px;
-    cursor: pointer;
-    background-color:white;
-    border: 1px grey solid;
-    width: 30px;
-    height: 30px;
-    box-sizing: content-box;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    padding: 2px;
-    font-family: Arial;
-    font-weight: normal;
-}
-
 #blocked-websites {
   padding-left: 0px;
   margin: 0px;
@@ -53,7 +33,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  width: 95%;
+  width: 285px !important;
   left: 5px;
 }
 
@@ -280,4 +260,9 @@ input[type='checkbox'] {
   position: relative;
   left: 6px;
   bottom: 2px;
+}
+
+
+#mySideNav div {
+  width: 300px;
 }
